@@ -1,23 +1,21 @@
-from fastapi import APIRouter, HTTPException
-from app.schemas.interview_schema import (
-    StartInterviewRequest,
-    AnswerRequest
-)
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlalchemy.orm import Session
+from app.db.database import get_db
+from app.schemas.interview_schema import StartInterviewRequest, AnswerRequest
 from app.services.session_service import create_session
 from app.services.question_service import get_next_question
-from app.services.evaluation_service import (
-    submit_answer,
-    get_final_feedback
-)
-
-router = APIRouter()
+from app.services.evaluation_service import submit_answer, get_final_feedback
 
 
-@router.post("/interview/start")
-def start_interview(request: StartInterviewRequest):
+router = APIRouter(prefix="/interviews", tags=["Users"])
+
+
+@router.post("/start")
+def start_interview(request: StartInterviewRequest, db: Session = Depends(get_db)):
     session = create_session(request.topic)
 
     return {
+        "message": f"Now we will start the interview on {request.topic}",
         "session_id": session["session_id"],
         "first_question": session["questions"][0]
     }
