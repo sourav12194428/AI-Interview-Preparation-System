@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from sqlalchemy.orm import Session
-from app.db.database import get_db
+from app.db.session import get_db
 from app.schemas.interview_schema import StartInterviewRequest, AnswerRequest
 from app.services.session_service import create_session
 from app.services.question_service import get_next_question

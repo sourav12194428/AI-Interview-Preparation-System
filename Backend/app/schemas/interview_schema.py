@@ -1,6 +1,9 @@
 from pydantic import BaseModel, Field
 
-
+class QuestionRequest(BaseModel):
+    topic: str
+    difficulty: str
+    
 class StartInterviewRequest(BaseModel):
     topic: str = Field(..., min_length=2, max_length=100)
 
