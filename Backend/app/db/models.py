@@ -22,7 +22,7 @@ class Interview_Session(Base):
     final_feedback = Column(Text, nullable=True)
 
     session_question=relationship("Session_Questions", back_populates="session")
-    answers=relationship("Session_Answers", back_populates="session")
+    # answers=relationship("Session_Answers", back_populates="session")
     
 # ---------------------------
 # 2. Session_Questions
@@ -37,29 +37,29 @@ class Session_Questions(Base):
     # Relationships
     session = relationship("Interview_Session", back_populates="session_question")
     question = relationship("Question_Bank", back_populates="session_question")
-    answers = relationship("Session_Answers", back_populates="session_question")
+    # answers = relationship("Session_Answers", back_populates="session_question")
 
-#---------------------------
-# 3. Session_Answers
-#---------------------------
-class Session_Answers(Base):
-    __tablename__ = "session_answers"
+# #---------------------------
+# # 3. Session_Answers
+# #---------------------------
+# class Session_Answers(Base):
+#     __tablename__ = "session_answers"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    session_id = Column(Integer, ForeignKey("interview_session.id"), nullable=False)
-    session_question_id = Column(Integer, ForeignKey("session_questions.id"), nullable=False)
-    user_answer = Column(Text, nullable=True)
-    ai_feedback = Column(Text, nullable=True)
-    score = Column(Float, nullable=True)
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     session_id = Column(Integer, ForeignKey("interview_session.id"), nullable=False)
+#     session_question_id = Column(Integer, ForeignKey("session_questions.id"), nullable=False)
+#     user_answer = Column(Text, nullable=True)
+#     ai_feedback = Column(Text, nullable=True)
+#     score = Column(Float, nullable=True)
 
-    # Relationships
-    session = relationship("Interview_Session",  back_populates="answers")
-    session_question = relationship("Session_Questions", back_populates="answers")
+#     # Relationships
+#     session = relationship("Interview_Session",  back_populates="answers")
+#     session_question = relationship("Session_Questions", back_populates="answers")
 
 
-#---------------------------
-# 4. Question_Bank
-#---------------------------
+# #---------------------------
+# # 4. Question_Bank
+# #---------------------------
 class Question_Bank(Base):
     __tablename__ = "question_bank"
 
@@ -67,7 +67,7 @@ class Question_Bank(Base):
     question_text = Column(Text, nullable=False)
     topic = Column(String, nullable=False)
     # tag = Column(Enum("easy", "medium", "hard", name="tag_enum"), nullable=True)
-    tag = Column(Enum("easy", "medium", "hard", name="tag_enum", create_type=False))
+    tag = Column(Enum("easy", "medium", "hard", name="tag_enum", create_type=False), nullable=False)
     expected_answer = Column(Text, nullable=True)
 
     session_question = relationship("Session_Questions", back_populates="question")

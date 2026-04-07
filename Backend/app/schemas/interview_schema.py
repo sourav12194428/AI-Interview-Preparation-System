@@ -5,7 +5,9 @@ class QuestionRequest(BaseModel):
     difficulty: str
     
 class StartInterviewRequest(BaseModel):
+    user_id: int
     topic: str = Field(..., min_length=2, max_length=100)
+    tag: str
 
 
 class StartInterviewResponse(BaseModel):
